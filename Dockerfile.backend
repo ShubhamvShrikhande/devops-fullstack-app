@@ -5,7 +5,7 @@ FROM golang:1.20 as builder
 WORKDIR /app
 
 # Copy the Go module files
-COPY backend/go.mod backend/go.sum /var/lib/jenkins/workspace/assignment/backend
+COPY backend/go.mod backend/go.sum ./
 
 # Download the Go module dependencies
 RUN go mod download
