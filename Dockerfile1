@@ -3,6 +3,7 @@ FROM golang:1.19
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
+pwd
 
 # Copy go.mod and go.sum files
 COPY /var/lib/jenkins/workspace/fullstack-app/backend/go.mod /app
