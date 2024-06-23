@@ -14,7 +14,7 @@ RUN go mod download
 COPY backend/ .
 
 # Build the Go application
-RUN go build -o myapp .
+#RUN go build -o myapp .
 
 
 
