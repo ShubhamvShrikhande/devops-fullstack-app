@@ -1,25 +1,32 @@
-# Use an official Golang runtime as a parent image
-FROM golang:1.19
+# Stage 1: Build the Go binary
+FROM golang:1.20 as builder
 
-# Set the Current Working Directory inside the container
+# Set the working directory
 WORKDIR /app
-CMD cd /var/lib/jenkins/workspace/fullstack-app/backend/
 
-# Copy go.mod and go.sum files
-COPY /var/lib/jenkins/workspace/fullstack-app/backend/go.mod /app
-#COPY /home/ubuntu/devops-fullstack-app/backend/go.sum .
+# Copy the Go module files
+COPY go.mod go.sum ./
 
-# Download dependencies
+# Download the Go module dependencies
 RUN go mod download
 
-# Copy the source code
+# Copy the rest of the application source code
 COPY . .
 
-# Build the Go app
-RUN go build -o main .
+# Build the Go application
+RUN go build -o myapp .
 
-# Expose port 8080 to the outside world
+# Stage 2: Create a minimal image with the built binary
+FROM gcr.io/distroless/base-debian10
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the binary from the builder stage
+COPY --from=builder /app/myapp /app/
+
+# Expose the application's port (if any)
 EXPOSE 8080
 
-# Command to run the executable
-CMD ["./main"]
+# Command to run the application
+CMD ["./myapp"]
