@@ -5,7 +5,7 @@ FROM golang:1.19
 WORKDIR /app
 
 # Copy go.mod and go.sum files
-COPY go.mod .
+COPY /var/lib/jenkins/workspace/fullstack-app/backend/go.mod /app
 #COPY /home/ubuntu/devops-fullstack-app/backend/go.sum .
 
 # Download dependencies
