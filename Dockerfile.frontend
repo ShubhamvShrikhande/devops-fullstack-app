@@ -1,5 +1,5 @@
 # Example for a Node.js frontend application
-FROM node:14
+FROM node:14.17.0
 
 WORKDIR /app
 
