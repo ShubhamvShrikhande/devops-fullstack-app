@@ -1,5 +1,5 @@
 # Start with the official Golang image
-FROM golang:1.18
+FROM golang:1.18 as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -13,8 +13,17 @@ RUN go mod download
 # Copy the source from the current directory to the Working Directory inside the container
 COPY backend/ .
 
-# Build the Go app
-RUN go build -o myapp main.go
+# Build the Go app with static linking
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o myapp main.go
+
+# Use a minimal base image to package the final binary
+FROM alpine:latest
+
+# Set the Current Working Directory inside the container
+WORKDIR /root/
+
+# Copy the statically compiled binary from the builder stage
+COPY --from=builder /app/myapp .
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
