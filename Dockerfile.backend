@@ -28,6 +28,9 @@ RUN apk --no-cache add ca-certificates
 # Copy the binary from the builder stage
 COPY --from=builder /app/employees .
 
+# Ensure the binary has executable permissions
+RUN chmod +x ./employees
+
 # Expose the port the app runs on
 EXPOSE 8080
 
