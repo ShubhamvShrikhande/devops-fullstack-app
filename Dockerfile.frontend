@@ -1,3 +1,4 @@
+# Use the official lightweight Node.js 18 image
 FROM node:18-slim
 
 # Set the working directory in the container
@@ -5,6 +6,7 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json into the container
 COPY package.json ./
+COPY package-lock.json ./
 
 # Install dependencies
 RUN npm install
