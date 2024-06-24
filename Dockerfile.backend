@@ -22,6 +22,9 @@ FROM alpine:latest
 # Set the current working directory inside the container
 WORKDIR /root/
 
+# Install necessary packages for running the Go binary (if any are needed)
+RUN apk --no-cache add ca-certificates
+
 # Copy the binary from the builder stage
 COPY --from=builder /app/employees .
 
